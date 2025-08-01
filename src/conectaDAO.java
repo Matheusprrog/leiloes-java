@@ -8,7 +8,7 @@ public class conectaDAO {
         Connection conn = null;
 
         try {
-            String url = "jdbc:mysql://127.0.0.1:3306/uc11";
+            String url = "jdbc:mysql://127.0.0.1:3306/uc11?useSSL=false";
             String user = "root";
             String password = "Matheus110207@"; 
 
