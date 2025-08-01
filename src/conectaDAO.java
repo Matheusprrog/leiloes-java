@@ -1,33 +1,24 @@
 
     import java.sql.Connection;
-    import java.sql.DriverManager;
-    import java.sql.SQLException;
-    import javax.swing.JOptionPane;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
+public class conectaDAO {
+    public Connection connectDB() {
+        Connection conn = null;
 
+        try {
+            String url = "jdbc:mysql://127.0.0.1:3306/uc11";
+            String user = "root";
+            String password = "Matheus110207@"; 
 
-    /*
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
-     */
+            conn = DriverManager.getConnection(url, user, password);
 
-    /**
-     *
-     * @author Adm
-     */
-    public class conectaDAO {
-
-        public Connection connectDB(){
-            Connection conn = null;
-
-            try {
-
-                conn = DriverManager.getConnection("jdbc:mysql://localhost/uc11?user=root&password=");
-
-            } catch (SQLException erro){
-                JOptionPane.showMessageDialog(null, "Erro ConectaDAO" + erro.getMessage());
-            }
-            return conn;
+        } catch (SQLException erro) {
+            System.out.println("Erro ConectaDAO: " + erro.getMessage());
         }
 
+        return conn;
     }
+}
+

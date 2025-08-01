@@ -22,13 +22,24 @@ public class ProdutosDAO {
     ResultSet resultset;
     ArrayList<ProdutosDTO> listagem = new ArrayList<>();
     
-    public void cadastrarProduto (ProdutosDTO produto){
-        
-        
-        //conn = new conectaDAO().connectDB();
-        
-        
+    public void cadastrarProduto(ProdutosDTO produto) {
+    String sql = "INSERT INTO produtos (nome, valor, status) VALUES (?, ?, ?)";
+
+    conn = new conectaDAO().connectDB(); // conecta ao banco
+
+    try {
+        prep = conn.prepareStatement(sql);
+        prep.setString(1, produto.getNome());
+        prep.setInt(2, produto.getValor());
+        prep.setString(3, produto.getStatus());
+
+        prep.execute();
+        JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
+
+    } catch (Exception erro) {
+        JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto: " + erro.getMessage());
     }
+}
     
     public ArrayList<ProdutosDTO> listarProdutos(){
         
