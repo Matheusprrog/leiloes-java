@@ -42,8 +42,10 @@ public class ProdutosDAO {
 }
     
     public ArrayList<ProdutosDTO> listarProdutos() {
-    String sql = "SELECT * FROM produtos";
     conn = new conectaDAO().connectDB();
+    listagem = new ArrayList<>();
+    
+    String sql = "SELECT * FROM produtos";
 
     try {
         prep = conn.prepareStatement(sql);
@@ -58,14 +60,54 @@ public class ProdutosDAO {
 
             listagem.add(produto);
         }
-
-    } catch (Exception erro) {
-        JOptionPane.showMessageDialog(null, "Erro ao listar produtos: " + erro.getMessage());
+    } catch (Exception e) {
+        System.out.println("Erro ao listar produtos: " + e.getMessage());
     }
 
     return listagem;
 }
+
+public ArrayList<ProdutosDTO> listarProdutosVendidos() {
+    conn = new conectaDAO().connectDB();
+    ArrayList<ProdutosDTO> vendidos = new ArrayList<>();
+
+    String sql = "SELECT * FROM produtos WHERE status = 'Vendido'";
+
+    try {
+        prep = conn.prepareStatement(sql);
+        resultset = prep.executeQuery();
+
+        while (resultset.next()) {
+            ProdutosDTO produto = new ProdutosDTO();
+            produto.setId(resultset.getInt("id"));
+            produto.setNome(resultset.getString("nome"));
+            produto.setValor(resultset.getInt("valor"));
+            produto.setStatus(resultset.getString("status"));
+
+            vendidos.add(produto);
+        }
+    } catch (Exception e) {
+        System.out.println("Erro ao listar vendidos: " + e.getMessage());
+    }
+
+    return vendidos;
     
+}
+    public void venderProduto(int id) {
+    String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
+
+    conn = new conectaDAO().connectDB();
+
+    try {
+        prep = conn.prepareStatement(sql);
+        prep.setInt(1, id);
+        prep.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Erro ao vender produto: " + e.getMessage());
+    }
+}
     
     
         
